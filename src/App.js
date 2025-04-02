@@ -1,10 +1,34 @@
 import './App.css';
 
 function App() {
+  const downloadPDF = () => {
+    // Create a clone of the body without the download button for printing
+    const content = document.body.cloneNode(true);
+    const downloadBtn = content.querySelector('.download-container');
+    if (downloadBtn) {
+      content.removeChild(downloadBtn);
+    }
+    
+    // Store current page content
+    const originalContent = document.body.innerHTML;
+    
+    // Replace with print-optimized content
+    document.body.innerHTML = content.innerHTML;
+    
+    // Print (save as PDF)
+    window.print();
+    
+    // Restore original content after print dialog closes
+    setTimeout(function() {
+      document.body.innerHTML = originalContent;
+    }, 100);
+  };
+  
   return (
     <div className="App">
+      
       <div class="download-container">
-        <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+        <button class="download-btn" onClick={downloadPDF()}>Download PDF</button>
     </div>
      <div class="header">
         <div class="name">Md. Mushtaq Hussain</div>
@@ -128,6 +152,7 @@ function App() {
             </div>
         </div>
     </div>
+    
     </div>
   );
 }
