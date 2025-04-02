@@ -3,6 +3,9 @@ import './App.css';
 function App() {
   return (
     <div className="App">
+      <div class="download-container">
+        <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+    </div>
      <div class="header">
         <div class="name">Md. Mushtaq Hussain</div>
         <div class="contact-info">
