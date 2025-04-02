@@ -2,33 +2,37 @@ import './App.css';
 
 function App() {
   const downloadPDF = () => {
-    // Create a clone of the body without the download button for printing
-    const content = document.body.cloneNode(true);
-    const downloadBtn = content.querySelector('.download-container');
-    if (downloadBtn) {
-      content.removeChild(downloadBtn);
-    }
+    // Hide the download button using CSS rather than DOM manipulation
+    const printStyle = document.createElement('style');
+    printStyle.innerHTML = `
+      @media print {
+        .download-container {
+          display: none !important;
+        }
+        body, html {
+          width: 210mm;
+          height: 297mm;
+          margin: 0;
+          padding: 20mm 15mm;
+        }
+      }
+    `;
+    document.head.appendChild(printStyle);
     
-    // Store current page content
-    const originalContent = document.body.innerHTML;
-    
-    // Replace with print-optimized content
-    document.body.innerHTML = content.innerHTML;
-    
-    // Print (save as PDF)
+    // Print the document
     window.print();
     
-    // Restore original content after print dialog closes
-    setTimeout(function() {
-      document.body.innerHTML = originalContent;
+    // Remove the style after printing
+    setTimeout(() => {
+      document.head.removeChild(printStyle);
     }, 100);
   };
   
   return (
     <div className="App">
       
-      <div class="download-container">
-        <button class="download-btn" onClick={downloadPDF()}>Download PDF</button>
+      <div className="download-container">
+        <button className="download-btn" onClick={downloadPDF}>Download PDF</button>
     </div>
      <div class="header">
         <div class="name">Md. Mushtaq Hussain</div>
